@@ -4,188 +4,233 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SRUT & SKRB PROJECTS</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .production-card {
-            background-color: #ffffff;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 1px 3px 0 rgba(51, 65, 85, 0.05);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
     </style>
 </head>
-<body class="bg-[#f1f5f9] text-[#1e293b] font-sans antialiased selection:bg-teal-100 selection:text-teal-900">
+<body class="bg-slate-100 text-slate-900 antialiased min-h-screen pb-12">
 
-    <script>
-        window.onerror = function(message, source, lineno, colno, error) {
-            alert("⚠️ SYSTEM ERROR DETECTED!\n\nKode JavaScript mogok karena ada kesalahan penulisan.\nPesan Error: " + message + "\nTerjadi di baris: " + lineno);
-            return false;
-        };
-    </script>
-
-    <div id="loading-screen" class="fixed inset-0 bg-slate-900/40 z-50 flex flex-col items-center justify-center hidden backdrop-blur-xs">
-        <div class="bg-white p-6 rounded-xl border border-slate-300 shadow-md flex flex-col items-center">
-            <div class="w-7 h-7 mb-3 border-3 border-teal-600/20 border-t-teal-600 rounded-full animate-spin"></div>
-            <span class="text-xs font-mono font-bold tracking-wider text-slate-700 uppercase">PROCESSING DATABASE...</span>
-        </div>
+    <div id="loading-screen" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex flex-col items-center justify-center text-white hidden">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-teal-500 border-t-transparent mb-4"></div>
+        <p class="font-mono text-xs tracking-widest text-teal-400 animate-pulse">MEMPROSES DATABASE...</p>
     </div>
 
-    <header class="bg-[#1e293b] text-white border-b border-slate-700 sticky top-0 z-40 shadow-xs">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <div class="w-6 h-6 bg-teal-500 rounded-sm flex items-center justify-center text-slate-900 font-mono font-black text-xs">⚙️</div>
-                <h1 class="text-sm font-bold tracking-wider font-mono uppercase">
-                    SRUT & SKRB <span class="text-teal-400 font-medium">PROJECTS</span>
-                </h1>
+                <div class="bg-teal-600 p-2 rounded-lg text-lg">📁</div>
+                <div>
+                    <h1 class="text-base font-black tracking-wider text-white font-mono">SRUT & SKRB PROJECTS</h1>
+                    <p class="text-[10px] text-slate-400 font-mono">DATABASE MANAGEMENT SYSTEM v2.0</p>
+                </div>
             </div>
-            <div>
-                <span class="bg-teal-950 text-teal-400 border border-teal-800 text-[10px] font-mono font-bold px-2.5 py-1 rounded uppercase tracking-wider">
-                    ● Online
-                </span>
+            <div class="flex gap-2 text-center overflow-x-auto max-w-full py-1">
+                <div class="bg-slate-800 border border-slate-700 rounded-md px-3 py-1.5 min-w-[80px]">
+                    <div id="count-srut" class="text-sm font-bold text-teal-400 font-mono">0</div>
+                    <div class="text-[9px] text-slate-400 font-bold">SRUT AKTIF</div>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-md px-3 py-1.5 min-w-[80px]">
+                    <div id="count-skrb" class="text-sm font-bold text-amber-400 font-mono">0</div>
+                    <div class="text-[9px] text-slate-400 font-bold">SKRB AKTIF</div>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-md px-3 py-1.5 min-w-[80px]">
+                    <div id="count-arch-srut" class="text-sm font-bold text-slate-300 font-mono">0</div>
+                    <div class="text-[9px] text-slate-400 font-bold">ARC SRUT</div>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-md px-3 py-1.5 min-w-[80px]">
+                    <div id="count-arch-skrb" class="text-sm font-bold text-slate-300 font-mono">0</div>
+                    <div class="text-[9px] text-slate-400 font-bold">ARC SKRB</div>
+                </div>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-8">
+    <main class="max-w-7xl mx-auto px-4 mt-6">
         
-        <div class="border-b border-slate-300 mb-8">
-            <nav class="-mb-px flex space-x-6 text-xs font-mono font-bold uppercase tracking-wider overflow-x-auto">
-                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="py-3.5 cursor-pointer border-b-2 border-slate-900 text-slate-900 font-black transition-all whitespace-nowrap">Dashboard</button>
-                <button onclick="switchTab('srut')" id="tab-srut" class="py-3.5 cursor-pointer text-slate-400 hover:text-slate-700 transition-all border-b-2 border-transparent whitespace-nowrap">Daftar SRUT</button>
-                <button onclick="switchTab('skrb')" id="tab-skrb" class="py-3.5 cursor-pointer text-slate-400 hover:text-slate-700 transition-all border-b-2 border-transparent whitespace-nowrap">Daftar SKRB</button>
-                <button onclick="switchTab('archive')" id="tab-archive" class="py-3.5 cursor-pointer text-teal-600/60 hover:text-teal-600 transition-all border-b-2 border-transparent whitespace-nowrap">📦Selesai</button>
-            </nav>
-        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-3">
+                <nav class="flex gap-6 text-xs font-bold font-mono overflow-x-auto">
+                    <button id="tab-dashboard" onclick="switchTab('dashboard')" class="py-2 border-b-2 border-slate-900 text-slate-900 font-black transition-all whitespace-nowrap cursor-pointer">📊 ANALISIS</button>
+                    <button id="tab-srut" onclick="switchTab('srut')" class="py-2 text-slate-400 hover:text-slate-700 transition-all border-b-2 border-transparent whitespace-nowrap cursor-pointer">🚚 DATA SRUT</button>
+                    <button id="tab-skrb" onclick="switchTab('skrb')" class="py-2 text-slate-400 hover:text-slate-700 transition-all border-b-2 border-transparent whitespace-nowrap cursor-pointer">📐 DATA SKRB</button>
+                    <button id="tab-archive" onclick="switchTab('archive')" class="py-2 text-teal-600/60 hover:text-teal-600 transition-all border-b-2 border-transparent whitespace-nowrap cursor-pointer">🗄️ ARSIP SELESAI</button>
+                </nav>
 
-        <div id="content-dashboard" class="tab-content space-y-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="production-card rounded-lg p-4 border-l-4 border-l-amber-500">
-                    <p class="text-[10px] font-mono font-bold text-slate-400 uppercase">SRUT DALAM PROSES</p>
-                    <p class="text-2xl font-black font-mono text-slate-900 mt-1" id="count-srut">0</p>
+                <div class="relative w-full md:max-w-xs">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 text-xs">🔍</span>
+                    <input type="text" id="global-search" oninput="filterAllTables()" placeholder="Cari No, Rangka, Merk, Pemilik..." class="w-full bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-1.5 text-xs font-mono text-slate-800 placeholder-slate-400 focus:outline-hidden focus:border-teal-500 focus:bg-white shadow-inner">
                 </div>
-                <div class="production-card rounded-lg p-4 border-l-4 border-l-teal-600">
-                    <p class="text-[10px] font-mono font-bold text-slate-400 uppercase">SRUT SELESAI</p>
-                    <p class="text-2xl font-black font-mono text-teal-600 mt-1" id="count-arch-srut">0</p>
-                </div>
-                <div class="production-card rounded-lg p-4 border-l-4 border-l-slate-500">
-                    <p class="text-[10px] font-mono font-bold text-slate-400 uppercase">SKRB DALAM PROSES</p>
-                    <p class="text-2xl font-black font-mono text-slate-900 mt-1" id="count-skrb">0</p>
-                </div>
-                <div class="production-card rounded-lg p-4 border-l-4 border-l-emerald-700">
-                    <p class="text-[10px] font-mono font-bold text-slate-400 uppercase">SKRB SELESAI</p>
-                    <p class="text-2xl font-black font-mono text-emerald-700 mt-1" id="count-arch-skrb">0</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <div class="bg-white border border-slate-300 rounded-lg p-5 lg:col-span-2">
-                    <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 mb-6">📈 Produksi (6 Periode)</h3>
-                    <div class="h-64 relative"><canvas id="trendChart"></canvas></div>
-                </div>
-                
-                <div class="bg-white border border-slate-300 rounded-lg p-5 flex flex-col justify-between lg:col-span-1">
-                    <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-amber-600 mb-6">⏳ Masih Proses</h3>
-                    <div class="h-44 relative flex items-center justify-center"><canvas id="prosesChart"></canvas></div>
-                    <div class="text-[10px] text-slate-400 font-mono text-center mt-4">SRUT vs SKRB</div>
-                </div>
-
-                <div class="bg-white border border-slate-300 rounded-lg p-5 flex flex-col justify-between lg:col-span-1">
-                    <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-teal-600 mb-6">📦Sudah Selesai</h3>
-                    <div class="h-44 relative flex items-center justify-center"><canvas id="selesaiChart"></canvas></div>
-                    <div class="text-[10px] text-slate-400 font-mono text-center mt-4"> SRUT vs SKRB</div>
-                </div>
-            </div>
-
-            <div class="bg-slate-800 text-slate-200 border border-slate-700 p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center gap-4">
-                <p class="text-xs font-mono text-slate-400">arsip menggunakan enkripsi baris terpisah terisolasi.</p>
-                <button onclick="loadData()" class="w-full sm:w-auto text-xs bg-teal-500 text-slate-900 font-mono font-bold px-4 py-2 rounded shadow-xs hover:bg-teal-400 transition-all cursor-pointer">
-                    ⚡ REFRESH DATA
-                </button>
             </div>
         </div>
 
-        <div id="content-srut" class="tab-content hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="bg-white border border-slate-300 p-5 rounded-lg h-fit">
-                    <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-3 mb-5" id="form-title-srut">🛠️ Form Entri SRUT</h2>
-                    <form id="form-srut" onsubmit="saveSrut(event)" class="space-y-4 text-xs font-mono font-bold text-slate-600">
-                        <div><label class="block mb-1">NOMOR PENDAFTARAN</label><input type="text" id="srut-no" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">TANGGAL PENDAFTARAN</label><input type="date" id="srut-tanggal" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">NOMOR RANGKA</label><input type="text" id="srut-rangka" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">NOMOR MESIN</label><input type="text" id="srut-mesin" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">MERK / TIPE</label><input type="text" id="srut-merk" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">JENIS KENDARAAN</label><input type="text" id="srut-pemilik" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div class="flex gap-2 pt-2">
-                            <button type="submit" id="btn-submit-srut" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded cursor-pointer tracking-wider">SUBMIT</button>
-                            <button type="button" id="btn-cancel-srut" onclick="cancelEditSrut()" class="hidden bg-slate-100 text-slate-600 py-2.5 px-4 rounded cursor-pointer">ABORT</button>
-                        </div>
-                    </form>
+        <div id="content-dashboard" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+                <h3 class="text-xs font-black font-mono text-slate-500 tracking-wider mb-4 uppercase">📈 Tren Berkas Masuk (6 Bulan Terakhir)</h3>
+                <div class="h-64"><canvas id="trendChart"></canvas></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+                    <h3 class="text-xs font-black font-mono text-slate-500 tracking-wider mb-2 uppercase">⏳ Berkas Sedang Proses</h3>
+                    <div class="h-40"><canvas id="prosesChart"></canvas></div>
                 </div>
-                <div class="lg:col-span-2 bg-white border border-slate-300 p-5 rounded-lg">
-                    <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 mb-4">🖥️ Data Registrasi - SRUT </h2>
-                    <div class="overflow-x-auto rounded border border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead>
-                                <tr class="bg-slate-100 border-b border-slate-300 text-slate-700 font-mono font-bold uppercase text-[11px]"><th class="p-3">No Pendaftaran</th><th class="p-3">Tgl Pendaftaran</th><th class="p-3">Chassis/Engine</th><th class="p-3">Spesifikasi</th><th class="p-3 text-center">Aksi</th></tr>
-                            </thead>
-                            <tbody id="table-srut-body" class="divide-y divide-slate-200 bg-white text-slate-700 font-medium"></tbody>
-                        </table>
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+                    <h3 class="text-xs font-black font-mono text-slate-500 tracking-wider mb-2 uppercase">✅ Berkas Selesai / Arsip</h3>
+                    <div class="h-40"><canvas id="selesaiChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-srut" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-6 hidden">
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs h-fit">
+                <h3 id="form-title-srut" class="text-xs font-black font-mono text-slate-800 border-b border-slate-100 pb-3 mb-4 uppercase tracking-wider">🛠️ Form Entri SRUT</h3>
+                <form id="form-srut" onsubmit="saveSrut(event)" class="space-y-3.5 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">No. Pendaftaran</label>
+                        <input type="text" id="srut-no" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 font-mono">
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="content-skrb" class="tab-content hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="bg-white border border-slate-300 p-5 rounded-lg h-fit">
-                    <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-3 mb-5" id="form-title-skrb">🛠️ Form Entri SKRB</h2>
-                    <form id="form-skrb" onsubmit="saveSkrb(event)" class="space-y-4 text-xs font-mono font-bold text-slate-600">
-                        <div><label class="block mb-1">NOMOR PENDAFTARAN</label><input type="text" id="skrb-no" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div><label class="block mb-1">TANGGAL PENDAFTARAN</label><input type="date" id="skrb-tanggal" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div><label class="block mb-1">JENIS KAROSERI</label><input type="text" id="skrb-jenis" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div><label class="block mb-1">PERUSAHAAN KAROSERI</label><input type="text" id="skrb-perusahaan" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div><label class="block mb-1">MERK / TIPE LANDASAN</label><input type="text" id="skrb-landasan" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div class="flex gap-2 pt-2">
-                            <button type="submit" id="btn-submit-skrb" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded cursor-pointer tracking-wider">SUBMIT</button>
-                            <button type="button" id="btn-cancel-skrb" onclick="cancelEditSkrb()" class="hidden bg-slate-100 text-slate-600 py-2.5 px-4 rounded cursor-pointer">ABORT</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="lg:col-span-2 bg-white border border-slate-300 p-5 rounded-lg">
-                    <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 mb-4">🖥️ Data Registrasi - SKRB</h2>
-                    <div class="overflow-x-auto rounded border border-slate-200">
-                        <table class="w-full text-left text-xs">
-                            <thead>
-                                <tr class="bg-slate-100 border-b border-slate-300 text-slate-700 font-mono font-bold uppercase text-[11px]"><th class="p-3">No Pendaftaran</th><th class="p-3">Tgl Pendaftaran</th><th class="p-3">Jenis / Perusahaan</th><th class="p-3">Chassis Landasan</th><th class="p-3 text-center">Aksi</th></tr>
-                            </thead>
-                            <tbody id="table-skrb-body" class="divide-y divide-slate-200 bg-white text-slate-700 font-medium"></tbody>
-                        </table>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">Tanggal Pendaftaran</label>
+                        <input type="date" id="srut-tanggal" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 font-mono">
                     </div>
-                </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">No. Rangka</label>
+                        <input type="text" id="srut-rangka" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 font-mono uppercase">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">No. Mesin</label>
+                        <input type="text" id="srut-mesin" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 font-mono uppercase">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">Merk / Tipe</label>
+                        <input type="text" id="srut-merk" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 uppercase">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">Nama Pemilik</label>
+                        <input type="text" id="srut-pemilik" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 uppercase">
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button type="submit" id="btn-submit-srut" class="w-full bg-slate-900 text-white font-mono font-bold py-2 rounded shadow-xs hover:bg-slate-800 cursor-pointer">SUBMIT</button>
+                        <button type="button" id="btn-cancel-srut" onclick="cancelEditSrut()" class="w-full bg-slate-200 text-slate-700 font-mono font-bold py-2 rounded hover:bg-slate-300 hidden cursor-pointer">BATAL</button>
+                    </div>
+                </form>
             </div>
-        </div>
-
-        <div id="content-archive" class="tab-content hidden space-y-8">
-            <div class="bg-white border border-slate-300 p-5 rounded-lg">
-                <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-teal-600 mb-4">📦Arsip Penyimpanan SRUT [STATUS: SELESAI]</h2>
-                <div class="overflow-x-auto rounded border border-slate-200">
-                    <table class="w-full text-left text-xs">
+            <div class="lg:col-span-2 bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50 border-b border-slate-300 text-slate-600 font-mono font-bold uppercase text-[11px]"><th class="p-3">No Pendaftaran</th><th class="p-3">Tgl Pendaftaran</th><th class="p-3">Chassis/Engine</th><th class="p-3">Spesifikasi Pemilik</th><th class="p-3 text-center">Opsi Arsip</th></tr>
+                            <tr class="bg-slate-900 text-white font-mono text-[10px] tracking-wider uppercase border-b border-slate-800">
+                                <th class="p-3">No Registrasi</th>
+                                <th class="p-3">Tgl Masuk</th>
+                                <th class="p-3">Identitas Kendaraan</th>
+                                <th class="p-3">Merk / Pemilik</th>
+                                <th class="p-3 text-center">Tindakan</th>
+                            </tr>
                         </thead>
-                        <tbody id="table-arch-srut-body" class="divide-y divide-slate-200 bg-white text-slate-500"></tbody>
+                        <tbody id="table-srut-body" class="divide-y divide-slate-100">
+                            <tr><td colspan="5" class="p-4 text-center text-slate-400 italic font-mono text-xs">Memuat database SRUT...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-skrb" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-6 hidden">
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-xs h-fit">
+                <h3 id="form-title-skrb" class="text-xs font-black font-mono text-slate-800 border-b border-slate-100 pb-3 mb-4 uppercase tracking-wider">🛠️ Form Entri SKRB</h3>
+                <form id="form-skrb" onsubmit="saveSkrb(event)" class="space-y-3.5 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">No. Pendaftaran</label>
+                        <input type="text" id="skrb-no" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 font-mono">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">Tanggal Pendaftaran</label>
+                        <input type="date" id="skrb-tanggal" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 font-mono">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">Jenis Kendaraan / Karoseri</label>
+                        <input type="text" id="skrb-jenis" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 uppercase">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">Nama Perusahaan</label>
+                        <input type="text" id="skrb-perusahaan" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 uppercase">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1 font-mono">Merk Landasan</label>
+                        <input type="text" id="skrb-landasan" required class="w-full bg-slate-50 border border-slate-200 rounded p-2 focus:outline-hidden focus:border-slate-900 uppercase">
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button type="submit" id="btn-submit-skrb" class="w-full bg-slate-900 text-white font-mono font-bold py-2 rounded shadow-xs hover:bg-slate-800 cursor-pointer">SUBMIT</button>
+                        <button type="button" id="btn-cancel-skrb" onclick="cancelEditSkrb()" class="w-full bg-slate-200 text-slate-700 font-mono font-bold py-2 rounded hover:bg-slate-300 hidden cursor-pointer">BATAL</button>
+                    </div>
+                </form>
+            </div>
+            <div class="lg:col-span-2 bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-white font-mono text-[10px] tracking-wider uppercase border-b border-slate-800">
+                                <th class="p-3">No Registrasi</th>
+                                <th class="p-3">Tgl Masuk</th>
+                                <th class="p-3">Jenis & Perusahaan</th>
+                                <th class="p-3">Landasan</th>
+                                <th class="p-3 text-center">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-skrb-body" class="divide-y divide-slate-100">
+                            <tr><td colspan="5" class="p-4 text-center text-slate-400 italic font-mono text-xs">Memuat database SKRB...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-archive" class="tab-content space-y-8 hidden">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-teal-900 text-teal-100 px-4 py-3 border-b border-teal-950 flex justify-between items-center">
+                    <h3 class="text-xs font-black font-mono tracking-wider uppercase">🗄️ Gudang Arsip Selesai - SRUT</h3>
+                    <span class="text-[10px] bg-teal-800 text-teal-300 font-mono font-bold px-2 py-0.5 rounded-full">PERMANEN LENGKAP</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 font-mono text-[10px] tracking-wider uppercase border-b border-slate-200">
+                                <th class="p-3">No Registrasi</th>
+                                <th class="p-3">Tgl Masuk</th>
+                                <th class="p-3">Identitas Kendaraan</th>
+                                <th class="p-3">Merk / Pemilik</th>
+                                <th class="p-3 text-center">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-arch-srut-body" class="divide-y divide-slate-100">
+                            <tr><td colspan="5" class="p-4 text-center text-slate-400 italic font-mono text-xs">Memuat arsip SRUT...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="bg-white border border-slate-300 p-5 rounded-lg">
-                <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-teal-600 mb-4">📦Arsip Penyimpanan SKRB [STATUS: SELESAI]</h2>
-                <div class="overflow-x-auto rounded border border-slate-200">
-                    <table class="w-full text-left text-xs">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+                <div class="bg-emerald-950 text-emerald-100 px-4 py-3 border-b border-emerald-950 flex justify-between items-center">
+                    <h3 class="text-xs font-black font-mono tracking-wider uppercase">🗄️ Gudang Arsip Selesai - SKRB</h3>
+                    <span class="text-[10px] bg-emerald-900 text-emerald-300 font-mono font-bold px-2 py-0.5 rounded-full">PERMANEN LENGKAP</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50 border-b border-slate-300 text-slate-600 font-mono font-bold uppercase text-[11px]"><th class="p-3">No Pendaftaran</th><th class="p-3">Tgl Pendaftaran</th><th class="p-3">Jenis / Perusahaan</th><th class="p-3">Chassis Landasan</th><th class="p-3 text-center">Opsi Arsip</th></tr>
+                            <tr class="bg-slate-100 text-slate-700 font-mono text-[10px] tracking-wider uppercase border-b border-slate-200">
+                                <th class="p-3">No Registrasi</th>
+                                <th class="p-3">Tgl Masuk</th>
+                                <th class="p-3">Jenis & Perusahaan</th>
+                                <th class="p-3">Landasan</th>
+                                <th class="p-3 text-center">Tindakan</th>
+                            </tr>
                         </thead>
-                        <tbody id="table-arch-skrb-body" class="divide-y divide-slate-200 bg-white text-slate-500"></tbody>
+                        <tbody id="table-arch-skrb-body" class="divide-y divide-slate-100">
+                            <tr><td colspan="5" class="p-4 text-center text-slate-400 italic font-mono text-xs">Memuat arsip SKRB...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -216,8 +261,7 @@
                 archiveSrutList = data.archive_srut || [];
                 archiveSkrbList = data.archive_skrb || [];
 
-                renderSrutTable(); renderSkrbTable();
-                renderArchiveSrutTable(); renderArchiveSkrbTable();
+                filterAllTables();
 
                 document.getElementById('count-srut').innerText = srutList.length;
                 document.getElementById('count-skrb').innerText = skrbList.length;
@@ -236,18 +280,18 @@
             
             document.querySelectorAll('[id^="tab-"]').forEach(el => {
                 if(el.id === 'tab-archive') {
-                    el.className = "py-3.5 cursor-pointer text-teal-600/60 hover:text-teal-600 transition-all border-b-2 border-transparent whitespace-nowrap";
+                    el.className = "py-2 cursor-pointer text-teal-600/60 hover:text-teal-600 transition-all border-b-2 border-transparent whitespace-nowrap";
                 } else {
-                    el.className = "py-3.5 cursor-pointer text-slate-400 hover:text-slate-700 transition-all border-b-2 border-transparent whitespace-nowrap";
+                    el.className = "py-2 cursor-pointer text-slate-400 hover:text-slate-700 transition-all border-b-2 border-transparent whitespace-nowrap";
                 }
             });
             
             const activeTab = document.getElementById(`tab-${tabId}`);
             if(activeTab) {
                 if(tabId === 'archive') {
-                    activeTab.className = "py-3.5 border-b-2 border-teal-500 text-teal-600 font-black transition-all whitespace-nowrap";
+                    activeTab.className = "py-2 border-b-2 border-teal-500 text-teal-600 font-black transition-all whitespace-nowrap";
                 } else {
-                    activeTab.className = "py-3.5 border-b-2 border-slate-900 text-slate-900 font-black transition-all whitespace-nowrap";
+                    activeTab.className = "py-2 border-b-2 border-slate-900 text-slate-900 font-black transition-all whitespace-nowrap";
                 }
             }
         }
@@ -288,7 +332,6 @@
             fillCounts(srutList.concat(archiveSrutList), srutCounts); 
             fillCounts(skrbList.concat(archiveSkrbList), skrbCounts);
 
-            // 1. Line Chart Tren Produksi
             trendChartInstance = new Chart(ctxTrend, {
                 type: 'line',
                 data: {
@@ -301,7 +344,6 @@
                 options: { responsive: true, maintainAspectRatio: false, scales: { y: { stepSize: 1 } } }
             });
 
-            // 2. Doughnut Chart MASIH PROSES
             prosesChartInstance = new Chart(ctxProses, {
                 type: 'doughnut',
                 data: { 
@@ -314,7 +356,6 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
 
-            // 3. Doughnut Chart SUDAH SELESAI
             selesaiChartInstance = new Chart(ctxSelesai, {
                 type: 'doughnut',
                 data: { 
@@ -328,6 +369,125 @@
             });
         }
 
+        // ================= FUNGSIONALITAS PENCARIAN (GLOBAL SEARCH) =================
+        function filterAllTables() {
+            const query = document.getElementById('global-search').value.toLowerCase();
+            renderSrutTable(query);
+            renderSkrbTable(query);
+            renderArchiveSrutTable(query);
+            renderArchiveSkrbTable(query);
+        }
+
+        function formatDate(dateStr) {
+            if(!dateStr) return '-';
+            const d = new Date(dateStr);
+            if(isNaN(d.getTime())) return dateStr;
+            return d.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function renderSrutTable(query = "") {
+            const tbody = document.getElementById('table-srut-body');
+            const filtered = srutList.filter(item => 
+                String(item.no || '').toLowerCase().includes(query) ||
+                String(item.rangka || '').toLowerCase().includes(query) ||
+                String(item.mesin || '').toLowerCase().includes(query) ||
+                String(item.merk || '').toLowerCase().includes(query) ||
+                String(item.pemilik || '').toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) { 
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono text-xs">Data tidak ditemukan.</td></tr>`; 
+                return; 
+            }
+            tbody.innerHTML = filtered.map(item => `
+                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200">
+                    <td class="p-3 font-bold font-mono text-slate-900">${item.no}</td><td class="p-3 text-slate-500">${formatDate(item.tanggal)}</td>
+                    <td class="p-3 font-mono text-[11px]">R: ${item.rangka}<br><span class="text-slate-400">M: ${item.mesin}</span></td>
+                    <td class="p-3"><span class="text-slate-900 font-bold">${item.merk}</span><br><span class="text-[11px] text-slate-400 uppercase font-mono">${item.pemilik}</span></td>
+                    <td class="p-3 text-center"><div class="flex justify-center gap-1">
+                        <button onclick="completeSrut('${item.id}')" class="text-white bg-teal-600 px-2 py-1 rounded font-mono font-bold text-[10px] cursor-pointer hover:bg-teal-700">✓ SELESAI</button>
+                        <button onclick="editSrut('${item.id}')" class="text-slate-700 bg-white border border-slate-300 px-2 py-1 rounded font-mono font-bold text-[10px] cursor-pointer hover:bg-slate-50">EDIT</button>
+                        <button onclick="deleteSrut('${item.id}')" class="text-red-600 bg-red-50 border border-red-200 px-2 py-1 rounded font-mono font-bold text-[10px] cursor-pointer hover:bg-red-100">DROP</button>
+                    </div></td>
+                </tr>`).join('');
+        }
+
+        function renderSkrbTable(query = "") {
+            const tbody = document.getElementById('table-skrb-body');
+            const filtered = skrbList.filter(item => 
+                String(item.no || '').toLowerCase().includes(query) ||
+                String(item.jenis || '').toLowerCase().includes(query) ||
+                String(item.perusahaan || '').toLowerCase().includes(query) ||
+                String(item.landasan || '').toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) { 
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono text-xs">Data tidak ditemukan.</td></tr>`; 
+                return; 
+            }
+            tbody.innerHTML = filtered.map(item => `
+                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200">
+                    <td class="p-3 font-bold font-mono text-slate-900">${item.no}</td><td class="p-3 text-slate-500">${formatDate(item.tanggal)}</td>
+                    <td class="p-3 font-mono text-[11px]">${item.jenis}<br><span class="text-slate-400">${item.perusahaan}</span></td>
+                    <td class="p-3 font-mono text-slate-600">${item.landasan}</td>
+                    <td class="p-3 text-center"><div class="flex justify-center gap-1">
+                        <button onclick="completeSkrb('${item.id}')" class="text-white bg-teal-600 px-2 py-1 rounded font-mono font-bold text-[10px] cursor-pointer hover:bg-teal-700">✓ SELESAI</button>
+                        <button onclick="editSkrb('${item.id}')" class="text-slate-700 bg-white border border-slate-300 px-2 py-1 rounded font-mono font-bold text-[10px] cursor-pointer hover:bg-slate-50">EDIT</button>
+                        <button onclick="deleteSkrb('${item.id}')" class="text-red-600 bg-red-50 border border-red-200 px-2 py-1 rounded font-mono font-bold text-[10px] cursor-pointer hover:bg-red-100">DROP</button>
+                    </div></td>
+                </tr>`).join('');
+        }
+
+        function renderArchiveSrutTable(query = "") {
+            const tbody = document.getElementById('table-arch-srut-body');
+            const filtered = archiveSrutList.filter(item => 
+                String(item.no || '').toLowerCase().includes(query) ||
+                String(item.rangka || '').toLowerCase().includes(query) ||
+                String(item.mesin || '').toLowerCase().includes(query) ||
+                String(item.merk || '').toLowerCase().includes(query) ||
+                String(item.pemilik || '').toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) { 
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono text-xs">Arsip tidak ditemukan.</td></tr>`; 
+                return; 
+            }
+            tbody.innerHTML = filtered.map(item => `
+                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200">
+                    <td class="p-3 font-bold font-mono text-slate-900">${item.no}</td><td class="p-3 text-slate-500">${formatDate(item.tanggal)}</td>
+                    <td class="p-3 font-mono text-[11px]">R: ${item.rangka}<br><span class="text-slate-400">M: ${item.mesin}</span></td>
+                    <td class="p-3"><span class="text-slate-900 font-bold">${item.merk}</span><br><span class="text-[11px] text-slate-400 uppercase font-mono">${item.pemilik}</span></td>
+                    <td class="p-3 text-center">
+                        <button onclick="deleteArchiveSrut('${item.id}')" class="text-red-600 bg-red-50 border border-red-200 px-2 py-1 rounded font-mono font-bold text-[10px] cursor-pointer hover:bg-red-100">🗑️ HAPUS PERMANEN</button>
+                    </td>
+                </tr>`).join('');
+        }
+
+        function renderArchiveSkrbTable(query = "") {
+            const tbody = document.getElementById('table-arch-skrb-body');
+            const filtered = archiveSkrbList.filter(item => 
+                String(item.no || '').toLowerCase().includes(query) ||
+                String(item.jenis || '').toLowerCase().includes(query) ||
+                String(item.perusahaan || '').toLowerCase().includes(query) ||
+                String(item.landasan || '').toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) { 
+                tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono text-xs">Arsip tidak ditemukan.</td></tr>`; 
+                return; 
+            }
+            tbody.innerHTML = filtered.map(item => `
+                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200">
+                    <td class="p-3 font-bold font-mono text-slate-900">${item.no}</td><td class="p-3 text-slate-500">${formatDate(item.tanggal)}</td>
+                    <td class="p-3 font-mono text-[11px]">${item.jenis}<br><span class="text-slate-400">${item.perusahaan}</span></td>
+                    <td class="p-3 font-mono text-slate-600">${item.landasan}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="deleteArchiveSkrb('${item.id}')" class="text-red-600 bg-red-50 border border-red-200 px-2 py-1 rounded font-mono font-bold text-[10px] cursor-pointer hover:bg-red-100">🗑️ HAPUS PERMANEN</button>
+                    </td>
+                </tr>`).join('');
+        }
+
+        // ================= PROSES AKSI DATABASE (POST) =================
         async function saveSrut(e) {
             e.preventDefault(); const isEdit = editSrutId !== null;
             const payload = {
@@ -400,28 +560,14 @@
                 } catch (error) { alert("Gagal menghapus!"); } finally { toggleLoading(false); } 
             }
         }
-        
-        function renderSrutTable() {
-            const tbody = document.getElementById('table-srut-body'); if (srutList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">No data registered.</td></tr>`; return; }
-            tbody.innerHTML = srutList.map(item => `
-                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200">
-                    <td class="p-3 font-bold font-mono text-slate-900">${item.no}</td><td class="p-3 text-slate-500">${formatDate(item.tanggal)}</td>
-                    <td class="p-3 font-mono text-[11px]">R: ${item.rangka}<br><span class="text-slate-400">M: ${item.mesin}</span></td>
-                    <td class="p-3"><span class="text-slate-900 font-bold">${item.merk}</span><br><span class="text-[11px] text-slate-400 uppercase font-mono">${item.pemilik}</span></td>
-                    <td class="p-3 text-center"><div class="flex justify-center gap-1">
-                        <button onclick="completeSrut('${item.id}')" class="text-white bg-teal-600 px-2 py-1 rounded font-mono font-bold text-[11px] cursor-pointer hover:bg-teal-700">✓ SELESAI</button>
-                        <button onclick="editSrut('${item.id}')" class="text-slate-700 bg-white border border-slate-300 px-2 py-1 rounded font-mono font-bold text-[11px] cursor-pointer hover:bg-slate-50">EDIT</button>
-                        <button onclick="deleteSrut('${item.id}')" class="text-red-600 bg-red-50 border border-red-200 px-2 py-1 rounded font-mono font-bold text-[11px] cursor-pointer hover:bg-red-100">DROP</button>
-                    </div></td>
-                </tr>`).join('');
-        }
 
         async function saveSkrb(e) {
             e.preventDefault(); const isEdit = editSkrbId !== null;
             const payload = {
                 action: isEdit ? 'update_skrb' : 'insert_skrb', id: isEdit ? editSkrbId.toString() : Date.now().toString(),
                 no: document.getElementById('skrb-no').value, tanggal: document.getElementById('skrb-tanggal').value,
-                jenis: document.getElementById('skrb-jenis').value, perusahaan: document.getElementById('skrb-perusahaan').value, landasan: document.getElementById('skrb-landasan').value
+                jenis: document.getElementById('skrb-jenis').value, perusahaan: document.getElementById('skrb-perusahaan').value, 
+                landasan: document.getElementById('skrb-landasan').value
             };
             toggleLoading(true);
             try { 
@@ -486,55 +632,35 @@
                 } catch (error) { alert("Gagal menghapus!"); } finally { toggleLoading(false); } 
             }
         }
-        
-        function renderSkrbTable() {
-            const tbody = document.getElementById('table-skrb-body'); if (skrbList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">No data registered.</td></tr>`; return; }
-            tbody.innerHTML = skrbList.map(item => `
-                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200">
-                    <td class="p-3 font-bold font-mono text-slate-900">${item.no}</td><td class="p-3 text-slate-500">${formatDate(item.tanggal)}</td>
-                    <td class="p-3"><span class="text-slate-900 font-bold">${item.jenis}</span><br><span class="text-[11px] text-slate-400 uppercase font-mono">${item.perusahaan}</span></td>
-                    <td class="p-3 font-mono">${item.landasan}</td>
-                    <td class="p-3 text-center"><div class="flex justify-center gap-1">
-                        <button onclick="completeSkrb('${item.id}')" class="text-white bg-teal-600 px-2 py-1 rounded font-mono font-bold text-[11px] cursor-pointer hover:bg-teal-700">✓ SELESAI</button>
-                        <button onclick="editSkrb('${item.id}')" class="text-slate-700 bg-white border border-slate-300 px-2 py-1 rounded font-mono font-bold text-[11px] cursor-pointer hover:bg-slate-50">EDIT</button>
-                        <button onclick="deleteSkrb('${item.id}')" class="text-red-600 bg-red-50 border border-red-200 px-2 py-1 rounded font-mono font-bold text-[11px] cursor-pointer hover:bg-red-100">DROP</button>
-                    </div></td>
-                </tr>`).join('');
+
+        // ================= FUNGSIONALITAS BARU: HAPUS ARSIP PERMANEN =================
+        async function deleteArchiveSrut(id) {
+            if(confirm('Peringatan! Data arsip SRUT ini akan DIHAPUS PERMANEN dari database Google Sheets?')) { 
+                toggleLoading(true); 
+                try { 
+                    await fetch(SCRIPT_URL, { 
+                        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
+                        body: JSON.stringify({ action: 'delete_archive_srut', id: id.toString() }) 
+                    }); 
+                    await loadData(); 
+                } catch (error) { alert("Gagal menghapus arsip!"); } finally { toggleLoading(false); } 
+            }
         }
 
-        function renderArchiveSrutTable() {
-            const tbody = document.getElementById('table-arch-srut-body'); if (archiveSrutList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">Belum ada arsip selesai.</td></tr>`; return; }
-            tbody.innerHTML = archiveSrutList.map(item => `
-                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200 bg-emerald-50/20">
-                    <td class="p-3 font-bold font-mono text-slate-700">${item.no}</td><td class="p-3 text-slate-400">${formatDate(item.tanggal)}</td>
-                    <td class="p-3 font-mono text-[11px] text-slate-500">R: ${item.rangka}<br>M: ${item.mesin}</td>
-                    <td class="p-3 text-slate-500"><span class="font-bold">${item.merk}</span><br><span class="text-[11px] uppercase font-mono">${item.pemilik}</span></td>
-                    <td class="p-3 text-center"><span class="bg-teal-100 text-teal-800 border border-teal-200 px-2.5 py-0.5 rounded-full font-mono font-bold text-[10px]">SUCCESS</span></td>
-                </tr>`).join('');
+        async function deleteArchiveSkrb(id) {
+            if(confirm('Peringatan! Data arsip SKRB ini akan DIHAPUS PERMANEN dari database Google Sheets?')) { 
+                toggleLoading(true); 
+                try { 
+                    await fetch(SCRIPT_URL, { 
+                        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
+                        body: JSON.stringify({ action: 'delete_archive_skrb', id: id.toString() }) 
+                    }); 
+                    await loadData(); 
+                } catch (error) { alert("Gagal menghapus arsip!"); } finally { toggleLoading(false); } 
+            }
         }
 
-        function renderArchiveSkrbTable() {
-            const tbody = document.getElementById('table-arch-skrb-body'); if (archiveSkrbList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">Belum ada arsip selesai.</td></tr>`; return; }
-            tbody.innerHTML = archiveSkrbList.map(item => `
-                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200 bg-emerald-50/20">
-                    <td class="p-3 font-bold font-mono text-slate-700">${item.no}</td><td class="p-3 text-slate-400">${formatDate(item.tanggal)}</td>
-                    <td class="p-3 text-slate-500"><span class="font-bold">${item.jenis}</span><br><span class="text-[11px] uppercase font-mono">${item.perusahaan}</span></td>
-                    <td class="p-3 font-mono text-slate-500">${item.landasan}</td>
-                    <td class="p-3 text-center"><span class="bg-teal-100 text-teal-800 border border-teal-200 px-2.5 py-0.5 rounded-full font-mono font-bold text-[10px]">SUCCESS</span></td>
-                </tr>`).join('');
-        }
-
-        function formatDate(dateStr) {
-            if(!dateStr) return '-';
-            const d = new Date(dateStr);
-            if(isNaN(d.getTime())) return dateStr;
-            return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-        }
-
-        // Pemicu pertama kali saat web dibuka
-        window.onload = function() {
-            loadData();
-        };
+        window.onload = loadData;
     </script>
 </body>
 </html>
