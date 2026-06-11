@@ -109,12 +109,12 @@
                 <div class="bg-white border border-slate-300 p-5 rounded-lg h-fit">
                     <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-3 mb-5" id="form-title-srut">🛠️ Form Entri SRUT</h2>
                     <form id="form-srut" onsubmit="saveSrut(event)" class="space-y-4 text-xs font-mono font-bold text-slate-600">
-                        <div><label class="block mb-1">NOMOR PENDAFTARAN</label><input type="text" id="srut-no" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">TANGGAL PENDAFTARAN</label><input type="date" id="srut-tanggal" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">NOMOR RANGKA</label><input type="text" id="srut-rangka" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">NOMOR MESIN</label><input type="text" id="srut-mesin" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">MERK / TIPE</label><input type="text" id="srut-merk" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
-                        <div><label class="block mb-1">JENIS KENDARAAN</label><input type="text" id="srut-pemilik" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden focus:border-teal-500"></div>
+                        <div><label class="block mb-1">NOMOR PENDAFTARAN</label><input type="text" id="srut-no" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">TANGGAL PENDAFTARAN</label><input type="date" id="srut-tanggal" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">NOMOR RANGKA</label><input type="text" id="srut-rangka" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">NOMOR MESIN</label><input type="text" id="srut-mesin" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">MERK / TIPE</label><input type="text" id="srut-merk" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">JENIS KENDARAAN</label><input type="text" id="srut-pemilik" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
                         <div class="flex gap-2 pt-2">
                             <button type="submit" id="btn-submit-srut" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded cursor-pointer tracking-wider">SUBMIT</button>
                             <button type="button" id="btn-cancel-srut" onclick="cancelEditSrut()" class="hidden bg-slate-100 text-slate-600 py-2.5 px-4 rounded cursor-pointer">ABORT</button>
@@ -140,11 +140,11 @@
                 <div class="bg-white border border-slate-300 p-5 rounded-lg h-fit">
                     <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-3 mb-5" id="form-title-skrb">🛠️ Form Entri SKRB</h2>
                     <form id="form-skrb" onsubmit="saveSkrb(event)" class="space-y-4 text-xs font-mono font-bold text-slate-600">
-                        <div><label class="block mb-1">NOMOR PENDAFTARAN</label><input type="text" id="skrb-no" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div><label class="block mb-1">TANGGAL PENDAFTARAN</label><input type="date" id="skrb-tanggal" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div><label class="block mb-1">JENIS KAROSERI</label><input type="text" id="skrb-jenis" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div><label class="block mb-1">PERUSAHAAN KAROSERI</label><input type="text" id="skrb-perusahaan" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
-                        <div><label class="block mb-1">MERK / TIPE LANDASAN</label><input type="text" id="skrb-landasan" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-hidden"></div>
+                        <div><label class="block mb-1">NOMOR PENDAFTARAN</label><input type="text" id="skrb-no" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">TANGGAL PENDAFTARAN</label><input type="date" id="skrb-tanggal" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">JENIS KAROSERI</label><input type="text" id="skrb-jenis" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">PERUSAHAAN KAROSERI</label><input type="text" id="skrb-perusahaan" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
+                        <div><label class="block mb-1">MERK / TIPE LANDASAN</label><input type="text" id="skrb-landasan" required class="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-800 font-sans font-medium focus:outline-none focus:border-teal-500"></div>
                         <div class="flex gap-2 pt-2">
                             <button type="submit" id="btn-submit-skrb" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded cursor-pointer tracking-wider">SUBMIT</button>
                             <button type="button" id="btn-cancel-skrb" onclick="cancelEditSkrb()" class="hidden bg-slate-100 text-slate-600 py-2.5 px-4 rounded cursor-pointer">ABORT</button>
@@ -328,6 +328,7 @@
             });
         }
 
+        // --- MANAJEMEN DATA SRUT ---
         async function saveSrut(e) {
             e.preventDefault(); const isEdit = editSrutId !== null;
             const payload = {
@@ -416,6 +417,7 @@
                 </tr>`).join('');
         }
 
+        // --- MANAJEMEN DATA SKRB ---
         async function saveSkrb(e) {
             e.preventDefault(); const isEdit = editSkrbId !== null;
             const payload = {
@@ -486,14 +488,14 @@
                 } catch (error) { alert("Gagal menghapus!"); } finally { toggleLoading(false); } 
             }
         }
-        
+
         function renderSkrbTable() {
             const tbody = document.getElementById('table-skrb-body'); if (skrbList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">No data registered.</td></tr>`; return; }
             tbody.innerHTML = skrbList.map(item => `
                 <tr class="hover:bg-slate-50 text-xs border-b border-slate-200">
                     <td class="p-3 font-bold font-mono text-slate-900">${item.no}</td><td class="p-3 text-slate-500">${formatDate(item.tanggal)}</td>
-                    <td class="p-3"><span class="text-slate-900 font-bold">${item.jenis}</span><br><span class="text-[11px] text-slate-400 uppercase font-mono">${item.perusahaan}</span></td>
-                    <td class="p-3 font-mono">${item.landasan}</td>
+                    <td class="p-3"><strong>${item.jenis}</strong><br><span class="text-slate-400">${item.perusahaan}</span></td>
+                    <td class="p-3 font-mono text-[11px]">${item.landasan}</td>
                     <td class="p-3 text-center"><div class="flex justify-center gap-1">
                         <button onclick="completeSkrb('${item.id}')" class="text-white bg-teal-600 px-2 py-1 rounded font-mono font-bold text-[11px] cursor-pointer hover:bg-teal-700">✓ SELESAI</button>
                         <button onclick="editSkrb('${item.id}')" class="text-slate-700 bg-white border border-slate-300 px-2 py-1 rounded font-mono font-bold text-[11px] cursor-pointer hover:bg-slate-50">EDIT</button>
@@ -502,39 +504,42 @@
                 </tr>`).join('');
         }
 
+        // --- MANAJEMEN DATA ARSIP ---
         function renderArchiveSrutTable() {
-            const tbody = document.getElementById('table-arch-srut-body'); if (archiveSrutList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">Belum ada arsip selesai.</td></tr>`; return; }
+            const tbody = document.getElementById('table-arch-srut-body'); if (archiveSrutList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">Archive empty.</td></tr>`; return; }
             tbody.innerHTML = archiveSrutList.map(item => `
-                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200 bg-emerald-50/20">
-                    <td class="p-3 font-bold font-mono text-slate-700">${item.no}</td><td class="p-3 text-slate-400">${formatDate(item.tanggal)}</td>
-                    <td class="p-3 font-mono text-[11px] text-slate-500">R: ${item.rangka}<br>M: ${item.mesin}</td>
-                    <td class="p-3 text-slate-500"><span class="font-bold">${item.merk}</span><br><span class="text-[11px] uppercase font-mono">${item.pemilik}</span></td>
-                    <td class="p-3 text-center"><span class="bg-teal-100 text-teal-800 border border-teal-200 px-2.5 py-0.5 rounded-full font-mono font-bold text-[10px]">SUCCESS</span></td>
+                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200 bg-slate-50/50 text-slate-500">
+                    <td class="p-3 font-mono">${item.no}</td><td class="p-3">${formatDate(item.tanggal)}</td>
+                    <td class="p-3 font-mono text-[11px]">R: ${item.rangka}<br>M: ${item.mesin}</td>
+                    <td class="p-3"><span>${item.merk}</span><br><span class="text-[11px] uppercase font-mono">${item.pemilik}</span></td>
+                    <td class="p-3 text-center"><span class="bg-teal-100 text-teal-800 text-[10px] font-bold font-mono px-2 py-0.5 rounded border border-teal-200">📦 SUCCESS</span></td>
                 </tr>`).join('');
         }
 
         function renderArchiveSkrbTable() {
-            const tbody = document.getElementById('table-arch-skrb-body'); if (archiveSkrbList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">Belum ada arsip selesai.</td></tr>`; return; }
+            const tbody = document.getElementById('table-arch-skrb-body'); if (archiveSkrbList.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic font-mono">Archive empty.</td></tr>`; return; }
             tbody.innerHTML = archiveSkrbList.map(item => `
-                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200 bg-emerald-50/20">
-                    <td class="p-3 font-bold font-mono text-slate-700">${item.no}</td><td class="p-3 text-slate-400">${formatDate(item.tanggal)}</td>
-                    <td class="p-3 text-slate-500"><span class="font-bold">${item.jenis}</span><br><span class="text-[11px] uppercase font-mono">${item.perusahaan}</span></td>
-                    <td class="p-3 font-mono text-slate-500">${item.landasan}</td>
-                    <td class="p-3 text-center"><span class="bg-teal-100 text-teal-800 border border-teal-200 px-2.5 py-0.5 rounded-full font-mono font-bold text-[10px]">SUCCESS</span></td>
+                <tr class="hover:bg-slate-50 text-xs border-b border-slate-200 bg-slate-50/50 text-slate-500">
+                    <td class="p-3 font-mono">${item.no}</td><td class="p-3">${formatDate(item.tanggal)}</td>
+                    <td class="p-3"><strong>${item.jenis}</strong><br><span>${item.perusahaan}</span></td>
+                    <td class="p-3 font-mono text-[11px]">${item.landasan}</td>
+                    <td class="p-3 text-center"><span class="bg-teal-100 text-teal-800 text-[10px] font-bold font-mono px-2 py-0.5 rounded border border-teal-200">📦 SUCCESS</span></td>
                 </tr>`).join('');
         }
 
+        // --- FUNGSI UTALITAS HELPER ---
         function formatDate(dateStr) {
-            if(!dateStr) return '-';
+            if (!dateStr) return "-";
             const d = new Date(dateStr);
-            if(isNaN(d.getTime())) return dateStr;
+            if (isNaN(d.getTime())) return dateStr;
             return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
         }
 
-        // Pemicu pertama kali saat web dibuka
-        window.onload = function() {
+        // --- AUTOMATIC INITIALIZER ---
+        document.addEventListener('DOMContentLoaded', () => {
             loadData();
-        };
+            switchTab('dashboard');
+        });
     </script>
 </body>
 </html>
